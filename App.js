@@ -12,6 +12,7 @@ import Streaks from './Streaks'
 import Manage from './Manage'
 import Tasks from './Tasks'
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import { FireTwoTone } from '@ant-design/icons'
 
 const Stack = createNativeStackNavigator()
 
@@ -21,9 +22,16 @@ export default function App({ navigation }) {
   const [secondColumn, setSecond] = useState(getData('secondColumn'))
   const date = new Date().getDate()
 
-  const loadBase = () => {
-    storeData(Tasks[0], Tasks[1])
-    AsyncStorage.setItem('day', date)
+  const loadBase = async () => {
+    let refreshFirstColumn = firstColumn._W
+    Object.entries(refreshFirstColumn).forEach(([key, value], index) => {
+      value.status = 1
+    })
+    const refreshSecondColumn = secondColumn._W
+    Object.entries(refreshSecondColumn).forEach(([key, value], index) => {
+      value.status = 1
+    })
+    storeData(refreshFirstColumn, refreshSecondColumn)
   }
 
   console.log('KEK' + JSON.stringify(new Date().getDate()))
@@ -38,16 +46,12 @@ export default function App({ navigation }) {
         loadBase()
       } else {
         console.log('BAKKA')
+        console.log(await getData('day'))
       }
     } catch (err) {
       console.log(err)
     }
   }
-
-  checkDate()
-
-  console.log(firstColumn)
-
   return (
     <Context.Provider
       value={{
@@ -59,6 +63,8 @@ export default function App({ navigation }) {
         setSecond,
         storeData,
         getData,
+        loadBase,
+        checkDate,
       }}
     >
       <NavigationContainer>

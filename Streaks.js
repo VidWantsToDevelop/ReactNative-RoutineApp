@@ -61,18 +61,21 @@ class Streaks extends React.Component {
       })
     }
     let array = true
-    let object = Object.keys(this.state)
-    object.forEach((state) => {
-      if (
-        this.state[state] != 100 &&
-        state != 'showModal' &&
-        state != 'trigger'
-      ) {
-        array = false
-        return array
+    Object.entries(this.context.firstColumn._W).forEach(
+      ([key, value], index) => {
+        if (value.status != 100) {
+          array = false
+        }
       }
-    })
-
+    )
+    Object.entries(this.context.secondColumn._W).forEach(
+      ([key, value], index) => {
+        if (value.status != 100) {
+          array = false
+        }
+      }
+    )
+    console.log(array)
     return array
   }
 

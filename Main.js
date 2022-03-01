@@ -58,6 +58,7 @@ const Main = ({ navigation }) => {
   }
 
   const value = useContext(Context)
+  value.checkDate()
   return (
     <ImageBackground
       source={require('./styling/imgs/MainBG.jpg')}

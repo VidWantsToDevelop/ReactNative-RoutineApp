@@ -11,13 +11,17 @@ import Context from './Context'
 import Streaks from './Streaks'
 import Manage from './Manage'
 import Tasks from './Tasks'
+import { DummyData } from './DummyData'
+import Carousel from './Carousel'
+
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import { FireTwoTone } from '@ant-design/icons'
 
 const Stack = createNativeStackNavigator()
 
 export default function App({ navigation }) {
+  const [isLoading, setIsLoading] = useState(true)
   const [isDone, setIsDone] = useState(false)
+  const [counter, setCounter] = useState(getData('counter'))
   const [firstColumn, setFirst] = useState(getData('firstColumn'))
   const [secondColumn, setSecond] = useState(getData('secondColumn'))
   const date = new Date().getDate()
@@ -65,6 +69,9 @@ export default function App({ navigation }) {
         getData,
         loadBase,
         checkDate,
+        DummyData,
+        isLoading,
+        setIsLoading,
       }}
     >
       <NavigationContainer>
@@ -81,7 +88,7 @@ export default function App({ navigation }) {
             component={Main}
             options={{
               headerStyle: {
-                backgroundColor: '#4ABDAC',
+                backgroundColor: 'rgb(84, 65, 181)',
               },
             }}
           />
@@ -111,7 +118,16 @@ export default function App({ navigation }) {
                 backgroundColor: 'green',
               },
             }}
-          ></Stack.Screen>
+          />
+          <Stack.Screen
+            name='Carousel'
+            component={Carousel}
+            option={{
+              headerStyle: {
+                backgroundColor: 'whitesmoke',
+              },
+            }}
+          />
         </Stack.Navigator>
       </NavigationContainer>
     </Context.Provider>
@@ -136,6 +152,7 @@ const getData = async (key) => {
   } catch (e) {
     console.log(e)
   }
+  console.log('Done')
 }
 
 const styles = StyleSheet.create({
